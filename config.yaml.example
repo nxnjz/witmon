@@ -1,0 +1,13 @@
+telegram_bot_access_token: "aaa:bbb"
+telegram_chat_id: 11111
+ping_checks: 
+  - 127.0.0.1
+  - google.com
+  - 1.1.1.1
+  - 8.8.8.8
+http_checks: 
+  - http://192.168.0.1/
+http_checks_unsafe:
+  - https://invalid.hostname/
+  - https://10.10.5.24/health
+http_checks_timeout: 10
