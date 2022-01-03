@@ -1,6 +1,12 @@
 import os, time, yaml, requests, sys
 from datetime import datetime
 
+from yaml import load, dump
+
+try:
+    from yaml import CLoader as Loader, CDumper as Dumper
+except ImportError:
+    from yaml import Loader, Dumper
 
 with open("config.yaml") as f:
     config = yaml.load(f)
