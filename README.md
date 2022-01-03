@@ -22,5 +22,11 @@ git clone https://gitlab.com/nxnjz/witmon.git
 * Set the chat_id in `config.yaml`
 * Run `python3 witmon.py`
 
+## Systemd
 
+To use as a systemd service:
 
+* Place the witmon directory under `/opt/`. 
+* `cp /opt/witmon/witmon.service /etc/systemd/system/`
+* `systemctl daemon-reload`
+* To enable at boot and start immediately, use `systemctl enable --now witmon.service`.
