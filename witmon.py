@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os, time, yaml, requests, sys
 from datetime import datetime
 
