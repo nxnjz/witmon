@@ -115,18 +115,21 @@ while True:
         for pc in config["ping_checks"]:
             mon.check_ping(pc)
     except TypeError:
+        print("ping_checks is not a list, ignoring", file=sys.stderr)
         pass
 
     try:
         for hc in config["http_checks"]:
             mon.check_http(hc)
     except TypeError:
+        print("http_checks is not a list, ignoring", file=sys.stderr)
         pass
 
     try:
         for hc in config["http_checks_unsafe"]:
             mon.check_http(hc, verify=False)
     except TypeError:
+        print("http_checks_unsafe is not a list, ignoring", file=sys.stderr)
         pass
 
     mon.report()
