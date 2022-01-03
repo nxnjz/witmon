@@ -1,7 +1,6 @@
 telegram_bot_access_token: "aaa:bbb"
 telegram_chat_ids:
  - 11111
- - 1234551
 ping_checks: 
   - 127.0.0.1
   - google.com
