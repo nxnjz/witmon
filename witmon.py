@@ -17,15 +17,16 @@ class Telegram:
             print(updates)
 
     def msg(self, msg, notify=True):
-        r = requests.get(
-            "https://api.telegram.org/bot%s/sendMessage" % self.token,
-            params={
-                "chat_id": config["telegram_chat_id"],
-                "text": msg,
-                "disable_notification": not notify,
-            },
-        )
-        print(r.text)
+        for cid in config["telegram_chat_ids"]:
+            r = requests.get(
+                "https://api.telegram.org/bot%s/sendMessage" % self.token,
+                params={
+                    "chat_id": cid,
+                    "text": msg,
+                    "disable_notification": not notify,
+                },
+            )
+            print(r.text)
 
 
 tg = Telegram(config["telegram_bot_access_token"])
