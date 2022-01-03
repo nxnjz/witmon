@@ -12,3 +12,5 @@ http_checks_unsafe:
   - https://invalid.hostname/
   - https://10.10.5.24/health
 http_checks_timeout: 10
+checks_interval: 20
+healthy_report_interval: 300

@@ -1,4 +1,5 @@
 import os, time, yaml, requests, sys
+from datetime import datetime
 
 
 with open("config.yaml") as f:
@@ -24,6 +25,7 @@ class Telegram:
                     "chat_id": cid,
                     "text": msg,
                     "disable_notification": not notify,
+                    "parse_mode": "MarkdownV2",
                 },
             )
             print(r.text)
@@ -38,7 +40,8 @@ class WitMon:
         self.ping_ko = set()
         self.http_ok = set()
         self.http_ko = set()
-        pass
+        self.last_report = datetime.now()
+        self.was_degraded = True
 
     def msg(self, msg, notify):
         tg.msg(msg, notify)
@@ -57,7 +60,7 @@ class WitMon:
             except KeyError:
                 pass
             self.ping_ko.add(addr)
-            self.msg("error pinging %s" % addr, notify=True)
+            self.msg("ERROR pinging %s" % addr, notify=True)
 
     def check_http(self, url, verify=True):
         try:
@@ -68,7 +71,7 @@ class WitMon:
             except KeyError:
                 pass
             self.http_ko.add(url)
-            self.msg("error reaching %s" % url, notify=True)
+            self.msg("ERROR reaching %s" % url, notify=True)
         else:
             self.http_ok.add(url)
             try:
@@ -76,14 +79,26 @@ class WitMon:
             except KeyError:
                 pass
 
+    def is_degraded(self):
+        return len(self.ping_ko) > 0 or len(self.http_ko) > 0
+
     def report(self):
-        msg = ("Ping errs/ok: %s/%s" "  HTTP errs/ok: %s/%s") % (
-            len(self.ping_ko),
-            len(self.ping_ok),
-            len(self.http_ko),
-            len(self.http_ok),
-        )
-        self.msg(msg, notify=(len(self.ping_ko) > 0 or len(self.http_ko) > 0))
+        if (
+            self.is_degraded()
+            or self.was_degraded
+            or (datetime.now() - self.last_report).total_seconds()
+            > config["healthy_report_interval"]
+        ):
+            msg = ("*%s* \n\nPing errs/ok: %s/%s" "  \nHTTP errs/ok: %s/%s") % (
+                "DEGRADED" if self.is_degraded() else "HEALTHY",
+                len(self.ping_ko),
+                len(self.ping_ok),
+                len(self.http_ko),
+                len(self.http_ok),
+            )
+            self.msg(msg, notify=self.is_degraded())
+            self.last_report = datetime.now()
+        self.was_degraded = self.is_degraded()
 
 
 mon = WitMon()
@@ -109,4 +124,4 @@ while True:
         pass
 
     mon.report()
-    time.sleep(300)
+    time.sleep(config["checks_interval"])
