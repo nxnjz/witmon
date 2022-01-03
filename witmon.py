@@ -66,7 +66,8 @@ class WitMon:
             except KeyError:
                 pass
             self.ping_ko.add(addr)
-            self.msg("ERROR pinging %s" % addr, notify=True)
+            addr_esc = addr.replace(".", "\\.")
+            self.msg("ERROR pinging %s" % addr_esc, notify=True)
 
     def check_http(self, url, verify=True):
         try:
@@ -77,7 +78,8 @@ class WitMon:
             except KeyError:
                 pass
             self.http_ko.add(url)
-            self.msg("ERROR reaching %s" % url, notify=True)
+            url_esc = url.replace(".", "\\.")
+            self.msg("ERROR reaching %s" % url_esc, notify=True)
         else:
             self.http_ok.add(url)
             try:
