@@ -1,0 +1,10 @@
+[Unit]
+Description=WitMon service
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/screen -d -m /opt/witmon/witmon.py
+WorkingDirectory=/opt/witmon/
+
+[Install]
+WantedBy=multi-user.target
