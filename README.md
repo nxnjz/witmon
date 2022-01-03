@@ -30,3 +30,8 @@ To use as a systemd service:
 * `cp /opt/witmon/witmon.service /etc/systemd/system/`
 * `systemctl daemon-reload`
 * To enable at boot and start immediately, use `systemctl enable --now witmon.service`.
+
+## Note
+
+Main repo is on gitlab, it is mirrored to github which may not always be up to date. 
+
