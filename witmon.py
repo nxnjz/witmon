@@ -9,7 +9,7 @@ except ImportError:
     from yaml import Loader, Dumper
 
 with open("config.yaml") as f:
-    config = yaml.load(f)
+    config = yaml.load(f, Loader=Loader)
 
 
 class Telegram:
