@@ -64,7 +64,7 @@ class WitMon:
         tg.msg(msg, notify)
 
     def check_ping(self, addr):
-        ec = os.system("ping -c 1 %s" % addr)
+        ec = os.system("ping -c 2 %s" % addr)
         if ec == 0:
             self.ping_ok.add(addr)
             try:
