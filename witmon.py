@@ -17,6 +17,7 @@ with open("config.yaml") as f:
 class Telegram:
     def __init__(self, token):
         self.token = token
+        self.exceptions = []
         if len(sys.argv) > 1 and sys.argv[1] == "init":
             updates = requests.get(
                 "https://api.telegram.org/bot%s/getUpdates" % self.token,
@@ -27,15 +28,24 @@ class Telegram:
 
     def msg(self, msg, notify=True):
         for cid in config["telegram_chat_ids"]:
-            r = requests.get(
-                "https://api.telegram.org/bot%s/sendMessage" % self.token,
-                params={
-                    "chat_id": cid,
-                    "text": msg,
-                    "disable_notification": not notify,
-                    "parse_mode": "MarkdownV2",
-                },
-            )
+            try:
+                r = requests.get(
+                    "https://api.telegram.org/bot%s/sendMessage" % self.token,
+                    params={
+                        "chat_id": cid,
+                        "text": msg,
+                        "disable_notification": not notify,
+                        "parse_mode": "MarkdownV2",
+                    },
+                )
+            except Exception as e:
+                self.exceptions.append(e)
+                self.msg(msg, notify=notify)
+            else:
+                try:
+                    self.msg("%s ERRORs reaching telegram API", % len(self.exceptions))
+                else:
+                    self.exceptions = []
             print(r.text)
 
 
