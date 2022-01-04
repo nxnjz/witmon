@@ -42,10 +42,8 @@ class Telegram:
                 self.exceptions.append(e)
                 self.msg(msg, notify=notify)
             else:
-                try:
-                    self.msg("%s ERRORs reaching telegram API" % len(self.exceptions))
-                else:
-                    self.exceptions = []
+                self.msg("%s ERRORs reaching telegram API" % len(self.exceptions))
+                self.exceptions = []
             print(r.text)
 
 
