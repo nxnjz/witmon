@@ -45,7 +45,7 @@ class Telegram:
                 if len(self.exceptions) > 0:
                     self.exceptions = []
                     self.msg("%s ERRORs reaching telegram API" % len(self.exceptions))
-            print(r.text)
+                print(r.text)
 
 
 tg = Telegram(config["telegram_bot_access_token"])
