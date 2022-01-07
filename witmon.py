@@ -43,8 +43,9 @@ class Telegram:
                 self.msg(msg, notify=notify)
             else:
                 if len(self.exceptions) > 0:
+                    lene = len(self.exceptions)
                     self.exceptions = []
-                    self.msg("%s ERRORs reaching telegram API" % len(self.exceptions))
+                    self.msg("%s ERRORs reaching telegram API" % lene)
                 print(r.text)
 
 
